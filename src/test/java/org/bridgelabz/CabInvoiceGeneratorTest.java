@@ -6,9 +6,7 @@ import org.junit.Test;
 public class CabInvoiceGeneratorTest {
     CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
 
-    /**
-     * test for calculate fare *UC1
-     */
+
     @Test
     public void givenDistanceAndTime_ShouldReturnTotalFare() {
         double distance = 2.0;
@@ -17,27 +15,22 @@ public class CabInvoiceGeneratorTest {
         Assert.assertEquals(25, fare, 0.0);
     }
 
-    /**
-     * test for minimum input
-     */
     @Test
     public void givenLessDistanceAndTime_ShouldReturnMinFare() {
         double distance = 0.1;
         int time = 1;
         double fare = cabInvoiceGenerator.calculateFare(distance, time);
-        Assert.assertEquals(2, fare, 0.0);
+        Assert.assertEquals(5, fare, 0.0);
     }
 
-    /**
-     * test for multiple rides input *UC2
-     */
     @Test
-    public void givenMultipleRides_ShouldReturnTotalFare() {
+    public void givenMultipleRides_ShouldReturnInvoiceSummary() {
         Ride[] rides = {
                 new Ride(2.0, 5),
                 new Ride(0.1, 1)
         };
-        double totalFare = cabInvoiceGenerator.calculateFare(rides);
-        Assert.assertEquals(27.0, totalFare, 0.0);
+        InvoiceSummary invoiceSummary = cabInvoiceGenerator.calculateFare(rides);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
+        Assert.assertEquals(invoiceSummary, expectedInvoiceSummary);
     }
 }
